@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import myEpicNft from './assets/MyEpicNFT.json';
 
 
 // styling package
@@ -73,7 +74,7 @@ const App = () => {
         if (ethereum) {
           const provider = new ethers.providers.Web3Provider(ethereum);
           const signer = provider.getSigner();
-          const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, MyEpicNFT.abi, signer);
+          const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
   
           console.log("%cGoing to pop wallet now to pay gas...", "color: brown")
           let nftTxn = await connectedContract.makeAnNFT();
