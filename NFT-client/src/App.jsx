@@ -19,7 +19,37 @@ const TOTAL_MINT_COUNT = 50;
 
 const App = () => {
 
+  const CONTRACT_ADDRESS = "0xcc6199f2Eaf2995376B9D37C855ec96CA3380d20";
   const [currentAccount, setCurrentAccount] = useState("");
+
+  // Setup our listener.
+  const setupEventListener = async () => {
+    
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
+
+
+        // This line ⇩ will "capture" our event when our contract throws it.
+        connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
+          console.log(from, tokenId.toNumber())
+          alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
+        });
+
+        console.log("Setup event listener!")
+
+      } else {
+        console.log("Ethereum object doesn't exist!");
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const checkIfWalletIsConnected = async () => {
     // First make sure we have access to window.ethereum
@@ -40,7 +70,10 @@ const App = () => {
     if (accounts.length !== 0) {
       const account = accounts[0];
       console.log("%cFound an authorized account:", "color:green", account);
-      setCurrentAccount(account)
+      setCurrentAccount(account);
+
+      // User ALREADY had the wallet connected + authorized.
+      setupEventListener()
     } else {
       console.log("%cNo authorized account found", "color:red")
     }
@@ -60,6 +93,9 @@ const App = () => {
 
       console.log("%cConnected","color:blue", accounts[0]);
       setCurrentAccount(accounts[0]);
+
+      // users connect their wallet for the first time.
+      setupEventListener()
     } catch (error) {
       console.log(error)
     }
@@ -67,7 +103,7 @@ const App = () => {
 
   // Call the smart contract to mint NFT
   const mintNFTfromContract = async () => {
-    const CONTRACT_ADDRESS = "0x15D27439B6ae743af3B5B7F27EDc1E7b2A1aCBa0";
+    
       try {
         const { ethereum } = window;
   

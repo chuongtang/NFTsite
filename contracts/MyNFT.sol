@@ -23,6 +23,9 @@ contract MyEpicNFT is ERC721URIStorage {
   string[] secondWords = [" BOO ", " FAN ", " FUN ", " OLD ", " SEA ", " WRY "];
   string[] thirdWords = [" BIS ", " FAT ", " GEM ", " OOH ", " WOW ", " WEE "];
 
+  // events are messages our smart contracts throw out that we can capture on our client in real-time
+  event NewEpicNFTMinted(address sender, uint256 tokenId);
+
   // We need to pass the name of our NFTs token and it's symbol.
   constructor() ERC721 ("MyNFT", "TLC") {
     console.log("This is my NFT contract. Built by TLC");
@@ -67,10 +70,12 @@ contract MyEpicNFT is ERC721URIStorage {
     string memory third = pickRandomThirdWord(newItemId);
     string memory combinedWord = string(abi.encodePacked(first, second, third));
 
-    // I concatenate it all together, and then close the <text> and <svg> tags.
-    string memory finalSvg = string(abi.encodePacked(baseSvg, combinedWord, "</text></g></svg>"))
+    
 
-    console.log("\n*********************");
+    // I concatenate it all together, and then close the <text> and <svg> tags.
+    string memory finalSvg = string(abi.encodePacked(baseSvg, combinedWord, "</text></g></svg>"));
+
+    console.log ("*********************");
     console.log(finalSvg);
     console.log("*********************\n");
 
@@ -110,5 +115,8 @@ contract MyEpicNFT is ERC721URIStorage {
   
     _tokenIds.increment();
     console.log("An NFT w/ ID %s has been minted to %s", newItemId, msg.sender);
+  
+  emit NewEpicNFTMinted(msg.sender, newItemId);
+  // This will send ("emit") this iteam ⇑ to front end
   }
 }

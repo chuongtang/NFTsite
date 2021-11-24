@@ -1,4 +1,4 @@
-Smart Contract deployed to Rinkeby blockchain at: 0x15D27439B6ae743af3B5B7F27EDc1E7b2A1aCBa0
+Smart Contract deployed to Rinkeby blockchain at: 0xcc6199f2Eaf2995376B9D37C855ec96CA3380d20
 
 # Basic Sample Hardhat Project
 
