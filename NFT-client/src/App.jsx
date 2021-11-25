@@ -11,7 +11,8 @@ import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path';
 setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.61/dist/');
 import { SlButton, SlBadge, } from '@shoelace-style/shoelace/dist/react';
 
-import Alert from './components/Alert'
+import Alert from './components/Alert';
+import Loader from './components/Loader.svg';
 
 // Constants
 const TWITTER_HANDLE = '_buildspace';
@@ -24,7 +25,7 @@ const App = () => {
   const CONTRACT_ADDRESS = "0xcc6199f2Eaf2995376B9D37C855ec96CA3380d20";
   const [currentAccount, setCurrentAccount] = useState("");
   const [showAlert, setShowAlert] = useState(true);
-
+  const [loading, setLoading] = useState(true);
   const [alertType, setAlertType] = useState("primary");
   const [alertText, setAlertText] = useState("Information Only");
   const [alertIconName, setAlertIconName] = useState("info-circle");
@@ -208,7 +209,7 @@ const App = () => {
             Mint NFT
           </SlButton>
         )}
-
+        {loading &&  <object type="image/svg+xml" data={Loader} alt="Loading Animation" className="loader"></object> }
         <div className="badge-pulse ftr">
           <SlBadge type="warning" pill pulse>
             <sl-icon name="twitter"></sl-icon>

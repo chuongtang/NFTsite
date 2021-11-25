@@ -12,3 +12,6 @@
   width: 15px;
   margin: 1rem 8rem;
 }
+.loader{
+  max-height: 5rem;
+}
